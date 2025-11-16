@@ -1,0 +1,35 @@
+# User-specific files
+.vscode/
+.m2/
+.jdks/
+.config/
+.bash_history
+.lesshst
+.gitconfig
+AppData/
+Application Data/
+Cookies/
+Local Settings/
+My Documents/
+NetHood/
+PrintHood/
+Recent/
+SendTo/
+Start Menu/
+Templates/
+
+# Build directories
+target/
+**/target/
+
+# IDE files
+.idea/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python cache
+__pycache__/
+*.pyc

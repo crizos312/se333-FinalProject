@@ -1,12 +1,16 @@
-import org.junit.Test;
-import static org.junit.Assert.*;
-import java.util.Date;
 import java.util.Calendar;
-import org.apache.commons.lang3.StringUtils;
+import java.util.Date;
+
 import org.apache.commons.lang3.ClassUtils;
-import org.apache.commons.lang3.time.DateUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.apache.commons.lang3.time.DateUtils;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 public class GeneratedUtilInvocationTests {
 
