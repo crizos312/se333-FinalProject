@@ -63,6 +63,15 @@ def spec_test_generation(spec_path: str, output_path: str):
 @mcp.tool()
 def test_generation(source_path: str, output_path: str):
     try:
+        def sanitize_identifier(s: str) -> str:
+            import re
+            s = re.sub(r"[^0-9A-Za-z_]", "_", s)
+            if not s:
+                s = "x"
+            if s[0].isdigit():
+                s = "_" + s
+            return s
+
         methods = []
         for root, _, files in os.walk(source_path):
             for f in files:
@@ -73,9 +82,18 @@ def test_generation(source_path: str, output_path: str):
                             if line.startswith("public") and "(" in line and ")" in line and "class" not in line:
                                 methods.append(line)
         generated = []
+        used_names = set()
+        idx = 1
         for m in methods:
-            name = m.split("(")[0].split()[-1]
-            test = f"    @Test\n    public void test_{name}() {{}}\n"
+            raw_name = m.split("(")[0].split()[-1]
+            safe = sanitize_identifier(raw_name)
+            method_name = f"test_{safe}"
+            # ensure uniqueness
+            while method_name in used_names:
+                idx += 1
+                method_name = f"test_{safe}_{idx}"
+            used_names.add(method_name)
+            test = f"    @Test\n    public void {method_name}() {{}}\n"
             generated.append(test)
         os.makedirs(output_path, exist_ok=True)
         with open(os.path.join(output_path, "GeneratedTests.java"), "w", encoding="utf-8") as f:
