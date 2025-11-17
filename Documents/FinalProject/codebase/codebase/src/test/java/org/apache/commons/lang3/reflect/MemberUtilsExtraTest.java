@@ -1,10 +1,11 @@
 package org.apache.commons.lang3.reflect;
 
-import org.junit.Test;
-import java.lang.reflect.Method;
 import java.lang.reflect.AccessibleObject;
+import java.lang.reflect.Method;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 public class MemberUtilsExtraTest {
 
