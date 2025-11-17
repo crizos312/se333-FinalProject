@@ -1,6 +1,7 @@
 from fastmcp import FastMCP
 import subprocess
 import os
+import json
 import xml.etree.ElementTree as ET
 
 mcp = FastMCP("My MCP Server")
@@ -20,6 +21,44 @@ def maven_integration(project_path: str):
         return f"maven_test_{status}\n{result.stdout}\n{result.stderr}"
     except Exception as e:
         return f"error: {e}"
+
+@mcp.tool()
+def spec_test_generation(spec_path: str, output_path: str):
+    import json, os
+    with open(spec_path, encoding="utf-8") as f:
+        spec = json.load(f)
+
+    pkg = spec.get("package")
+    cls = spec.get("testClass", "GeneratedSpecTests")
+    tests = spec.get("tests", [])
+
+    lines = []
+    if pkg:
+        lines.append(f"package {pkg};")
+    lines += [
+        "import org.junit.Test;",
+        "import static org.junit.Assert.*;",
+        f"public class {cls} {{"
+    ]
+
+    for i, t in enumerate(tests, 1):
+        name = t.get("name", f"test{i}")
+        args = ", ".join(map(str, t.get("args", [])))
+        expr = f"{t.get('invoke')}({args})"
+        expect = t.get("expect")
+        lines.append(f"    @Test public void {name}() {{")
+        lines.append(f"        assertEquals({expect}, {expr});")
+        lines.append("    }")
+
+    lines.append("}")
+
+    os.makedirs(output_path, exist_ok=True)
+    out_file = os.path.join(output_path, cls + ".java")
+    with open(out_file, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines))
+
+    return f"spec_tests_generated:{out_file}"
+
 
 @mcp.tool()
 def test_generation(source_path: str, output_path: str):
