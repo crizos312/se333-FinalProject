@@ -1,10 +1,7 @@
 package org.apache.commons.lang3.builder;
 
-import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 public class EqualsBuilderExtraTest {

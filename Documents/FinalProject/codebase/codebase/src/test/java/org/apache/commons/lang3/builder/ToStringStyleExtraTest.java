@@ -1,7 +1,7 @@
 package org.apache.commons.lang3.builder;
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 public class ToStringStyleExtraTest {
